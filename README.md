@@ -18,7 +18,7 @@ Mein aktuelles Problem ist das ich meine Datenbank nicht verbinden kann, da ich 
 - [x] Timer stoppt, wenn der Spieler die Ziellinie erreicht  
 - [x] Zeit über dem Spieler im Spiel anzeigen  
 
-Heute habe ich mein Spiel weiter verbessert. Ich habe eine **Ziellinie mit Area2D und CollisionShape2D** erstellt, die erkennt, wenn der Spieler das Ziel erreicht. Zusätzlich habe ich einen **Timer programmiert**, der automatisch startet, sobald sich der Spieler bewegt, und stoppt, wenn die Ziellinie berührt wird. Die gemessene Zeit wird nun mit einem **Label direkt über dem Spieler im Spiel angezeigt**.
+Heute habe ich mein Spiel weiter verbessert. Ich habe eine **Ziellinie mit Area2D und CollisionShape2D** erstellt, die erkennt, wenn der Spieler das Ziel erreicht. Zusätzlich habe ich einen **Timer programmiert**, der automatisch startet, sobald sich der Spieler bewegt, und stoppt, wenn die Ziellinie berührt wird. Die gemessene Zeit wird nun mit einem **Label direkt über dem Spieler im Spiel angezeigt**. **Wichtig:** Ich konnte denn Code nicht hochladen, da er zu gross ist.
 
 ## 13.03
 
