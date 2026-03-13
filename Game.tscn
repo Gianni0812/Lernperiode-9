@@ -1,0 +1,151 @@
+[gd_scene load_steps=8 format=3 uid="uid://cwj4f1qyp7aba"]
+
+[ext_resource type="Texture2D" uid="uid://glk16h7tdx3w" path="res://Assets/Player.png" id="1_6igcf"]
+[ext_resource type="Texture2D" uid="uid://c6opgkkgmbeax" path="res://Assets/Tiles.png" id="2_u6khg"]
+
+[sub_resource type="GDScript" id="GDScript_6igcf"]
+resource_name = "Movment"
+script/source = "extends CharacterBody2D
+
+const GRAVITY = 800
+const SPEED = 100
+const JUMP_FORCE = -250
+
+var elapsed_time: float = 0.0
+var timer_started: bool = false
+var timer_stopped: bool = false
+var start_position: Vector2
+var db
+
+@onready var timer_label = $TimerLabel
+
+
+func _ready():
+	start_position = global_position
+	timer_label.text = \"Zeit: 0.00\"
+
+	db = SQLite.new()
+	db.path = \"user://jump_run.db\"
+
+	if db.open_db():
+		print(\"Datenbank verbunden\")
+		create_table()
+	else:
+		print(\"Datenbank Fehler\")
+
+
+func create_table():
+	var sql = \"CREATE TABLE IF NOT EXISTS scores (id INTEGER PRIMARY KEY AUTOINCREMENT, time REAL)\"
+	db.query(sql)
+	print(\"Tabelle erstellt oder bereits vorhanden\")
+
+
+func save_time():
+	var sql = \"INSERT INTO scores (time) VALUES (%f)\" % elapsed_time
+	db.query(sql)
+	print(\"Zeit gespeichert: \", elapsed_time)
+
+
+func _physics_process(delta):
+	# Schwerkraft
+	if not is_on_floor():
+		velocity.y += GRAVITY * delta
+	else:
+		velocity.y = 0
+
+	# Bewegung
+	velocity.x = 0
+	if Input.is_action_pressed(\"left\"):
+		velocity.x = -SPEED
+	elif Input.is_action_pressed(\"right\"):
+		velocity.x = SPEED
+
+	# Springen
+	if Input.is_action_just_pressed(\"jump\") and is_on_floor():
+		velocity.y = JUMP_FORCE
+
+	move_and_slide()
+
+	# Timer startet sobald sich der Player bewegt
+	if not timer_started and abs(velocity.x) > 0:
+		timer_started = true
+
+	# Timer läuft solange Ziel nicht erreicht wurde
+	if timer_started and not timer_stopped:
+		elapsed_time += delta
+		timer_label.text = \"Zeit: %.2f\" % elapsed_time
+
+	# Respawn wenn man runterfällt
+	if global_position.y > 1000:
+		respawn()
+
+
+func respawn():
+	global_position = start_position
+	velocity = Vector2.ZERO
+
+
+func _on_goal_line_body_entered(body: Node2D) -> void:
+	if body == self:
+		timer_stopped = true
+		timer_label.text = \"Endzeit: %.2f\" % elapsed_time
+		save_time()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6khg"]
+size = Vector2(10, 10)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ou18a"]
+texture = ExtResource("2_u6khg")
+1:0/0 = 0
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_mopgc"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_ou18a")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ou18a"]
+size = Vector2(47, 120)
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(24, 54)
+script = SubResource("GDScript_6igcf")
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_6igcf")
+hframes = 8
+vframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_u6khg")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="TimerLabel" type="Label" parent="Player"]
+offset_left = -4.0
+offset_top = -46.0
+offset_right = 57.0
+offset_bottom = -26.0
+theme_override_font_sizes/font_size = 14
+text = "Zeit: 0.00"
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_mopgc")
+format = 2
+layer_0/tile_data = PackedInt32Array(262148, 0, 0, 262149, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, -65536, 0, 0, -131072, 0, 0, 196619, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 393228, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, -65518, 0, 0, -65517, 0, 0, -65516, 0, 0, -65515, 0, 0, -196608, 0, 0, -196607, 0, 0, -262143, 0, 0, -262142, 0, 0, -327678, 0, 0, -327677, 0, 0, -327676, 0, 0, -327675, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -327670, 0, 0, -327669, 0, 0, -327668, 0, 0, -327667, 0, 0, -327666, 0, 0, -327665, 0, 0, -327664, 0, 0, -327663, 0, 0, -327662, 0, 0, -327661, 0, 0, -327660, 0, 0, -327659, 0, 0, -327658, 0, 0, -327657, 0, 0, -327656, 0, 0, -327655, 0, 0, -327654, 0, 0, 65565, 0, 0, 65566, 0, 0, 65567, 0, 0, 65568, 0, 0, 458780, 0, 0, 458781, 0, 0, 458782, 0, 0, 458783, 0, 0, 458784, 0, 0, -327653, 0, 0, -327652, 0, 0, -327651, 0, 0, -327650, 0, 0, -327649, 0, 0, -327648, 0, 0, -327647, 0, 0, -327646, 0, 0, -327645, 0, 0, -327644, 0, 0, -327643, 0, 0, 327714, 0, 0, 327715, 0, 0, 327716, 0, 0, 327717, 0, 0, 327718, 0, 0, 327719, 0, 0, -327642, 0, 0, -327641, 0, 0, -327640, 0, 0, -327639, 0, 0, -327638, 0, 0, -327637, 0, 0, -262101, 0, 0, -196565, 0, 0, -131029, 0, 0, -65493, 0, 0, 43, 0, 0, 65579, 0, 0, 131115, 0, 0, 196651, 0, 0, 262187, 0, 0, 327720, 0, 0, 327721, 0, 0, 327722, 0, 0, 327723, 0, 0)
+
+[node name="GoalLine" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLine"]
+position = Vector2(665.5, 20)
+shape = SubResource("RectangleShape2D_ou18a")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[connection signal="body_entered" from="GoalLine" to="Player" method="_on_goal_line_body_entered"]
