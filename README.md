@@ -22,7 +22,16 @@ Heute habe ich mein Spiel weiter verbessert. Ich habe eine **Ziellinie mit Area2
 
 ## 13.03
 
-- [ ] SQLite-Datenbank mit dem Godot-Projekt verbinden  
-- [ ] Tabelle für Bestzeiten (Scores) in der Datenbank erstellen  
-- [ ] Spielzeit beim Erreichen der Ziellinie in der Datenbank speichern  
-- [ ] Top 3 Bestzeiten im Spiel anzeigen
+- [x] SQLite-Datenbank mit dem Godot-Projekt verbunden  
+- [x] Tabelle für Bestzeiten in der Datenbank erstellt  
+- [x] Spielzeit beim Erreichen der Ziellinie in der Datenbank gespeichert  
+- [ ] Top 3 Bestzeiten im Spiel anzeigen  
+
+Heute habe ich mein Spiel weiterentwickelt und eine **SQLite-Datenbank mit meinem Godot-Projekt verbunden**. Anschliessend habe ich eine **Tabelle für Bestzeiten erstellt**, in der die Spielzeiten gespeichert werden können. Zusätzlich habe ich die Ziellogik erweitert, sodass die **gemessene Zeit automatisch in der Datenbank gespeichert wird**, sobald der Spieler die Ziellinie erreicht.
+
+## 20.03
+
+- [ ] Top 3 Bestzeiten aus der Datenbank auslesen  
+- [ ] Top 3 Zeiten im Spiel anzeigen  
+- [ ] Timer beim Neustart des Levels zurücksetzen  
+- [ ] Spielrunde neu starten können, um Bestzeiten zu schlagen
