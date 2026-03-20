@@ -31,7 +31,13 @@ Heute habe ich mein Spiel weiterentwickelt und eine **SQLite-Datenbank mit meine
 
 ## 20.03
 
-- [ ] Top 3 Bestzeiten aus der Datenbank auslesen  
-- [ ] Top 3 Zeiten im Spiel anzeigen  
-- [ ] Timer beim Neustart des Levels zurücksetzen  
+- [x] Top 3 Bestzeiten aus der Datenbank auslesen  
+- [x] Top 3 Zeiten im Spiel anzeigen  
+- [X] Map vergrössern und schwerer machen 
 - [ ] Spielrunde neu starten können, um Bestzeiten zu schlagen
+
+Heute habe ich mein Spiel weiter ausgebaut und verbessert. Ich habe die **Top 3 Bestzeiten aus der Datenbank ausgelesen** und diese anschliessend direkt im Spiel angezeigt, sodass man seine Leistungen vergleichen kann. Zusätzlich habe ich die **Map vergrössert und den Schwierigkeitsgrad erhöht**, indem ich neue Plattformen hinzugefügt und das Level anspruchsvoller gestaltet habe.
+
+## 27.03
+- [ ] Spielrunde neu starten können, um Bestzeiten zu schlagen
+- [ ] animationen hinzufügen
