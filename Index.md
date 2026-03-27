@@ -95,5 +95,30 @@ func clear_data():
 Dieser Befehl entfernt alle Einträge aus der Tabelle, ohne die Struktur der Tabelle zu löschen. Man sollte jedoch aufpassen, da man die Daten sonst immer wieder löscht. Dies dient nur zum Testen.
 
 # Result
+Am Ende dieses Tutorials kannst du:
+
+Eine SQLite-Datenbank in Godot verwenden
+Daten dauerhaft speichern und verwalten
+Daten strukturiert in Tabellen organisieren
+Daten gezielt auslesen und sortieren
+Daten zurücksetzen oder löschen
+
+Die gespeicherten Daten bleiben auch nach dem Neustart des Programms erhalten, da sie in einer lokalen Datei gespeichert werden.
+
+Hier ein Beispiel von mir:
+<img width="1895" height="1049" alt="image" src="https://github.com/user-attachments/assets/68b9468d-e00e-4cdc-959d-a823b5734dda" />
+
+Hier sieht man eine Top 3 die ich aus der datenbank herausgenomen und in dem Spiel implementiert habe.
 
 # What could go wrong?
+Mögliche Probleme:
+
+- Die Datenbank wird nicht erstellt → Plugin wurde nicht aktiviert
+- Fehler beim Öffnen der Datenbank → falscher Pfad oder open_db() fehlt
+- Tabelle wird nicht erstellt → SQL-Befehl falsch geschrieben
+- Daten werden nicht gespeichert → INSERT-Befehl fehlerhaft
+- Daten werden nicht angezeigt → query_result wird nicht verwendet
+- Ergebnisse sind leer → Tabelle enthält keine Daten
+- Fehler beim Zugriff → Node oder Variable nicht korrekt initialisiert
+
+Diese Probleme lassen sich meist durch Überprüfen der Plugin-Einstellungen, des Codes und der SQL-Befehle beheben.
