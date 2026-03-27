@@ -42,4 +42,3 @@ Heute habe ich mein Spiel weiter ausgebaut und verbessert. Ich habe die **Top 3 
 - [ ] Spielrunde neu starten können, um Bestzeiten zu schlagen
 - [ ] animationen hinzufügen
 
-[➡️ Mein Tutorial](https://gianni0812.github.io/Lernperiode-9/)
