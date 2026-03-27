@@ -40,6 +40,59 @@ func _ready():
 	else:
 		print("Fehler beim Verbinden")
 ```
+Die Datenbankdatei wird automatisch erstellt, falls sie noch nicht existiert. Der Pfad user:// ist ein spezieller Godot-Pfad, der für lokale Speicherung verwendet wird.
+
+Anschliessend erstellen wir eine Tabelle in der Datenbank:
+
+```csharp
+func create_table():
+	var sql = "CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY AUTOINCREMENT, value REAL)"
+	db.query(sql)
+```
+Hier wird eine Tabelle mit zwei Spalten erstellt:
+
+id: eine automatisch hochzählende eindeutige Nummer
+value: ein Zahlenwert (z. B. eine Zeit oder ein Punktestand)
+
+Der Zusatz IF NOT EXISTS verhindert, dass die Tabelle mehrfach erstellt wir
+
+Nun können wir Daten speichern:
+```csharp
+func save_data(value):
+	var sql = "INSERT INTO data (value) VALUES (%f)" % value
+	db.query(sql)
+```
+Dieser SQL-Befehl fügt einen neuen Eintrag in die Tabelle ein. Der Platzhalter %f wird dabei durch den übergebenen Wert ersetzt.
+
+Um Daten auszulesen, verwenden wir eine SELECT-Abfrage:
+```csharp
+func load_data():
+	var sql = "SELECT value FROM data ORDER BY value ASC"
+	db.query(sql)
+
+	var result = db.query_result
+
+	for i in range(result.size()):
+		print(str(i + 1) + ": " + str(result[i]["value"]))
+```
+Dabei passiert Folgendes:
+
+SELECT holt die Daten aus der Tabelle
+ORDER BY value ASC sortiert die Werte aufsteigend
+query_result enthält die Ergebnisse der Abfrage
+
+Optional kann man die Anzahl der Ergebnisse begrenzen:
+```csharp
+var sql = "SELECT value FROM data ORDER BY value ASC LIMIT 3"
+```
+Damit werden nur die ersten drei Einträge zurückgegeben.
+
+Zusätzlich kann man alle Daten löschen:
+```csharp
+func clear_data():
+	db.query("DELETE FROM data;")
+```
+Dieser Befehl entfernt alle Einträge aus der Tabelle, ohne die Struktur der Tabelle zu löschen. Man sollte jedoch aufpassen, da man die Daten sonst immer wieder löscht. Dies dient nur zum Testen.
 
 # Result
 
