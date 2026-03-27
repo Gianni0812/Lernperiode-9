@@ -24,9 +24,21 @@ In diesem Tutorial lernst du:
 - Grundlegende SQL-Befehle zu verstehen und anzuwenden 
 
 # Tutorial
+Zuerst installieren wir das **SQLite-Plugin** über die Godot Asset Library und aktivieren es anschliessend in den Project Settings unter „Plugins“. Dieses Plugin ermöglicht es, direkt aus dem GDScript heraus mit einer SQLite-Datenbank zu arbeiten.
+
+Danach erstellen wir im Script eine Verbindung zur Datenbank:
 
 ```csharp
-Console.WriteLine("This is a code snippet using ```")
+var db
+
+func _ready():
+	db = SQLite.new()
+	db.path = "user://database.db"
+
+	if db.open_db():
+		print("Datenbank verbunden")
+	else:
+		print("Fehler beim Verbinden")
 ```
 
 # Result
